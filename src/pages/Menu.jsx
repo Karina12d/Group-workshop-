@@ -1,9 +1,4 @@
-const OPTIONS = [
-  { id: 'sum', label: 'Suma', icon: '➕', desc: 'Suma de dos números' },
-  { id: 'calculator', label: 'Calculadora', icon: '🧮', desc: 'Calculadora tipo celular' },
-  { id: 'api', label: 'API', icon: '🔎', desc: 'Búsqueda con debounce' },
-  { id: 'form', label: 'Formulario', icon: '📝', desc: 'React Hook Form + Zod' },
-]
+import { MENU_OPTIONS } from '../model/menuOptions'
 
 export default function Menu({ user, onSelect, onLogout }) {
   return (
@@ -16,7 +11,7 @@ export default function Menu({ user, onSelect, onLogout }) {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        {OPTIONS.map((opt) => (
+        {MENU_OPTIONS.map((opt) => (
           <button
             key={opt.id}
             onClick={() => onSelect(opt.id)}

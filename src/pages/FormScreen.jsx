@@ -1,21 +1,9 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
 import Screen from '../components/Screen'
-
-// Esquema de validación con Zod
-const schema = z.object({
-  nombre: z.string().min(3, 'Mínimo 3 caracteres'),
-  email: z.string().email('Email inválido'),
-  genero: z.enum(['masculino', 'femenino', 'otro'], { message: 'Selecciona una opción' }),
-  carrera: z.string().min(1, 'Selecciona una carrera'),
-  intereses: z.array(z.string()).min(1, 'Elige al menos un interés'),
-  comentario: z.string().max(200, 'Máximo 200 caracteres').optional(),
-  terminos: z.literal(true, { message: 'Debes aceptar los términos' }),
-})
-
-const INTERESES = ['Frontend', 'Backend', 'Móvil', 'IA']
+import { formSchema, GENEROS, INTERESES, CARRERAS, FORM_DEFAULTS } from '../model/formSchema'
+import { inputClass } from '../styles/classes'
 
 export default function FormScreen({ onBack }) {
   const [sent, setSent] = useState(null)
@@ -25,8 +13,8 @@ export default function FormScreen({ onBack }) {
     reset,
     formState: { errors, isSubmitting },
   } = useForm({
-    resolver: zodResolver(schema),
-    defaultValues: { nombre: '', email: '', carrera: '', intereses: [], comentario: '', terminos: false },
+    resolver: zodResolver(formSchema),
+    defaultValues: FORM_DEFAULTS,
   })
 
   const onSubmit = async (data) => {
@@ -35,7 +23,6 @@ export default function FormScreen({ onBack }) {
     reset()
   }
 
-  const input = 'w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-indigo-400'
   const Err = ({ name }) => errors[name] && <p className="mt-1 text-sm text-red-600">{errors[name].message}</p>
 
   return (
@@ -44,12 +31,12 @@ export default function FormScreen({ onBack }) {
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
             <label className="mb-1 block text-sm font-medium text-slate-600">Nombre</label>
-            <input {...register('nombre')} className={input} />
+            <input {...register('nombre')} className={inputClass} />
             <Err name="nombre" />
           </div>
           <div>
             <label className="mb-1 block text-sm font-medium text-slate-600">Email</label>
-            <input {...register('email')} className={input} />
+            <input {...register('email')} className={inputClass} />
             <Err name="email" />
           </div>
         </div>
@@ -58,7 +45,7 @@ export default function FormScreen({ onBack }) {
         <div>
           <p className="mb-1 text-sm font-medium text-slate-600">Género</p>
           <div className="flex gap-4">
-            {['masculino', 'femenino', 'otro'].map((g) => (
+            {GENEROS.map((g) => (
               <label key={g} className="flex items-center gap-2 capitalize">
                 <input type="radio" value={g} {...register('genero')} /> {g}
               </label>
@@ -70,11 +57,13 @@ export default function FormScreen({ onBack }) {
         {/* Dropdown */}
         <div>
           <label className="mb-1 block text-sm font-medium text-slate-600">Carrera</label>
-          <select {...register('carrera')} className={input}>
+          <select {...register('carrera')} className={inputClass}>
             <option value="">-- Selecciona --</option>
-            <option value="computacion">Computación</option>
-            <option value="sistemas">Sistemas</option>
-            <option value="software">Software</option>
+            {CARRERAS.map((c) => (
+              <option key={c.value} value={c.value}>
+                {c.label}
+              </option>
+            ))}
           </select>
           <Err name="carrera" />
         </div>
@@ -95,7 +84,7 @@ export default function FormScreen({ onBack }) {
         {/* TextArea */}
         <div>
           <label className="mb-1 block text-sm font-medium text-slate-600">Comentario</label>
-          <textarea rows={4} {...register('comentario')} className={input} />
+          <textarea rows={4} {...register('comentario')} className={inputClass} />
           <Err name="comentario" />
         </div>
 

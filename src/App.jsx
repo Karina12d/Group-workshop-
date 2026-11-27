@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import Login from './screens/Login'
-import Menu from './screens/Menu'
-import Sum from './screens/Sum'
-import Calculator from './screens/Calculator'
-import ApiSearch from './screens/ApiSearch'
-import FormScreen from './screens/FormScreen'
+import Login from './pages/Login'
+import Menu from './pages/Menu'
+import Sum from './pages/Sum'
+import Calculator from './pages/Calculator'
+import ApiSearch from './pages/ApiSearch'
+import FormScreen from './pages/FormScreen'
 
 // Sin React Navigation: la "navegación" es un estado + renderizado condicional.
 export default function App() {

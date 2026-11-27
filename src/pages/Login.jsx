@@ -1,8 +1,6 @@
 import { useState } from 'react'
+import { AUTH_USER } from '../config/constants'
 
-// Credenciales "hardcodeadas" (simulación, no es seguridad real)
-const USERNAME = 'admin'
-const PASSWORD = '1234'
 
 export default function Login({ onLogin }) {
   const [username, setUsername] = useState('')
@@ -11,7 +9,7 @@ export default function Login({ onLogin }) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (username === USERNAME && password === PASSWORD) {
+    if (username === AUTH_USER.username && password === AUTH_USER.password) {
       setError('')
       onLogin(username)
     } else {
